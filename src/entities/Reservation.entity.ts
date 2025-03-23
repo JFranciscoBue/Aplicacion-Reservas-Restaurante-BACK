@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { v7 as uuid } from 'uuid';
 import { Client } from './Client.entity';
 
@@ -28,5 +34,6 @@ export class Reservation {
   num_comensales: number;
 
   @ManyToOne(() => Client, (client) => client.reservations)
+  @JoinColumn({ name: 'client_id' })
   client_id: Client;
 }
