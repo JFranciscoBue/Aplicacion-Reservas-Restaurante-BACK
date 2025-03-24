@@ -5,6 +5,10 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm from './config/typeorm';
+import { config as envConfig } from 'dotenv';
+import { JwtModule } from '@nestjs/jwt';
+
+envConfig({ path: '.env' });
 
 @Module({
   imports: [
@@ -19,6 +23,11 @@ import typeorm from './config/typeorm';
     ReservationsModule,
     AdminsModule,
     AuthModule,
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: 82400 },
+    }),
   ],
   controllers: [],
   providers: [],

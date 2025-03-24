@@ -45,7 +45,6 @@ export class Admin {
   @Column({
     type: 'varchar',
     nullable: false,
-    length: 50,
   })
   key: string;
 }

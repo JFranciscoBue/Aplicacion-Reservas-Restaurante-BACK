@@ -13,7 +13,7 @@ const config = {
   password: process.env.BBDD_PASSWORD,
   autoLoadEntities: true,
   entities: ['/dist/**/*.entity.{ts,js}'],
-  logging: true,
+  logging: false,
   synchronize: true,
 };
 export default registerAs('typeorm', () => config);
