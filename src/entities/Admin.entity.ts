@@ -47,4 +47,11 @@ export class Admin {
     nullable: false,
   })
   key: string;
+
+  @Column({
+    type: 'varchar',
+    nullable: false,
+    default: 'https://cdn-icons-png.flaticon.com/512/11789/11789135.png',
+  })
+  imgProfile: string;
 }

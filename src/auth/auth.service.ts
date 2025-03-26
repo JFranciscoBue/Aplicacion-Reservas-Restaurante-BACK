@@ -15,7 +15,7 @@ export class AuthService {
     private readonly jwt: JwtService,
   ) {}
 
-  async signUpAdmin(data: CreateAdminDto): Promise<Admin> {
+  async signUpAdmin(data: CreateAdminDto): Promise<Object> {
     const hashedKey = await bcrypt.hash(data.key, 10);
 
     const newAdmin = this.adminRepository.create({
@@ -29,7 +29,9 @@ export class AuthService {
 
     await this.adminRepository.save(newAdmin);
 
-    return newAdmin;
+    const { key, ...withOutKey } = newAdmin;
+
+    return withOutKey;
   }
 
   async signInAdmin(data: LoginAdminDto): Promise<string> {
