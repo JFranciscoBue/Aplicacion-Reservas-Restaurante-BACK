@@ -39,6 +39,7 @@ export class Admin {
     type: 'varchar',
     nullable: false,
     length: 8,
+    unique: true,
   })
   dni: string;
 

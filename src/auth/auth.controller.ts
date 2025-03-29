@@ -3,6 +3,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  HttpCode,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
@@ -31,14 +32,12 @@ export class AuthController {
   }
 
   @Post('/login')
+  @HttpCode(200)
   async signInAdmin(@Body() data: LoginAdminDto): Promise<Object> {
     try {
-      const token = await this.authService.signInAdmin(data);
+      const response = await this.authService.signInAdmin(data);
 
-      return {
-        message: 'Logged',
-        token,
-      };
+      return response;
     } catch (error) {
       throw new BadRequestException('Invalid credentials');
     }

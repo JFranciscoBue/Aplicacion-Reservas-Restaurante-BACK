@@ -27,6 +27,7 @@ export class Client {
     nullable: false,
     // length: 55,
     type: 'varchar',
+    unique: true,
   })
   phone: string;
 

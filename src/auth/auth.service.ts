@@ -34,7 +34,7 @@ export class AuthService {
     return withOutKey;
   }
 
-  async signInAdmin(data: LoginAdminDto): Promise<string> {
+  async signInAdmin(data: LoginAdminDto): Promise<Object> {
     const adminFound = await this.adminRepository.findOneOrFail({
       where: { dni: data.dni },
     });
@@ -47,7 +47,10 @@ export class AuthService {
         email: adminFound.email,
       });
 
-      return token;
+      return {
+        adminFound,
+        token,
+      };
     }
 
     throw new Error();

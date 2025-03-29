@@ -19,13 +19,13 @@ export class Reservation {
     type: 'date',
     nullable: false,
   })
-  date: Date;
+  date: string;
 
   @Column({
-    type: 'date',
+    type: 'time',
     nullable: false,
   })
-  hour: Date;
+  time: string;
 
   @Column({
     type: 'int',
