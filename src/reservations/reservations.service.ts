@@ -20,8 +20,18 @@ export class ReservationsService {
   }
 
   async getByStatus(status: string): Promise<Reservation[]> {
+    const validStatus = Object.values(ReservationStatus).includes(
+      status as ReservationStatus,
+    )
+      ? (status as ReservationStatus)
+      : null;
+
+    if (!validStatus) {
+      throw new Error('Invalid reservation status');
+    }
+
     return await this.reservationsRepository.find({
-      where: { status: ReservationStatus[status] },
+      where: { status: validStatus },
     });
   }
 

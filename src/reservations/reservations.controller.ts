@@ -12,6 +12,7 @@ import {
 import { ReservationsService } from './reservations.service';
 import { CreateReservationDto } from 'src/dto/reservations/Create-Reservation.dto';
 import { ReservationExist } from '../interceptors/reservations/reservationAlreadyExist';
+import { ReservationValidStatus } from 'src/interceptors/reservations/validStatus';
 
 @Controller('reservations')
 export class ReservationsController {
@@ -23,6 +24,7 @@ export class ReservationsController {
   }
 
   @Get('/getByStatus/:status')
+  @UseInterceptors(ReservationValidStatus)
   async getByStatus(@Param('status') status: string) {
     return await this.reservationsService.getByStatus(status);
   }

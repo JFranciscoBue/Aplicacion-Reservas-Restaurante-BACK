@@ -1,7 +1,7 @@
 enum ReservationStatus {
-  CONFIRMED = 'Confirmada',
-  CANCELLED = 'Cancelada',
-  FINISHED = 'Finalizada',
+  CONFIRMED = 'CONFIRMED',
+  CANCELLED = 'CANCELLED',
+  FINISHED = 'CONCLUDED',
 }
 
 export default ReservationStatus;
