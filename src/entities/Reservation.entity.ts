@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { v7 as uuid } from 'uuid';
 import { Client } from './Client.entity';
+import ReservationStatus from 'src/enums/ReservationStatus.enum';
 
 @Entity({
   name: 'reservations',
@@ -32,6 +33,13 @@ export class Reservation {
     nullable: false,
   })
   num_comensales: number;
+
+  @Column({
+    type: 'enum',
+    enum: ReservationStatus,
+    default: ReservationStatus.CONFIRMED,
+  })
+  status: ReservationStatus;
 
   @ManyToOne(() => Client, (client) => client.reservations)
   @JoinColumn({ name: 'client_id' })

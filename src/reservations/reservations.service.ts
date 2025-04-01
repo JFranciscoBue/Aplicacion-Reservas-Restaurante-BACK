@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateReservationDto } from 'src/dto/reservations/Create-Reservation.dto';
 import { Client } from 'src/entities/Client.entity';
 import { Reservation } from 'src/entities/Reservation.entity';
+import ReservationStatus from 'src/enums/ReservationStatus.enum';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -14,8 +15,14 @@ export class ReservationsService {
     private readonly clientsRepository: Repository<Client>,
   ) {}
 
-  async getAllReservations() {
+  async getAllReservations(): Promise<Reservation[]> {
     return await this.reservationsRepository.find();
+  }
+
+  async getByStatus(status: string): Promise<Reservation[]> {
+    return await this.reservationsRepository.find({
+      where: { status: ReservationStatus[status] },
+    });
   }
 
   async scheduleReservation(data: CreateReservationDto): Promise<Object> {
@@ -40,6 +47,36 @@ export class ReservationsService {
       client,
       reservation,
     };
+  }
+
+  async setStatusCancelled(id: string): Promise<Object> {
+    const reservation = await this.reservationsRepository.findOne({
+      where: { id },
+    });
+
+    if (!reservation) {
+      throw new NotFoundException(`Reservation with id: ${id} does not exist`);
+    }
+
+    reservation.status = ReservationStatus.CANCELLED;
+    await this.reservationsRepository.save(reservation);
+
+    return { reservation };
+  }
+
+  async setStatusFinished(id: string): Promise<Object> {
+    const reservation = await this.reservationsRepository.findOne({
+      where: { id },
+    });
+
+    if (!reservation) {
+      throw new NotFoundException(`Reservation with id: ${id} does not exist`);
+    }
+
+    reservation.status = ReservationStatus.FINISHED;
+    await this.reservationsRepository.save(reservation);
+
+    return { reservation };
   }
 
   async deleteReservation(id: string): Promise<Number> {
