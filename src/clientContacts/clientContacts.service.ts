@@ -11,6 +11,10 @@ export class ClientContactsService {
     private readonly clientContactsRepository: Repository<ClientContact>,
   ) {}
 
+  async getAllContacts(): Promise<ClientContact[]> {
+    return await this.clientContactsRepository.find();
+  }
+
   async receiveContact(details: CreateContactDto): Promise<ClientContact> {
     const newContact = this.clientContactsRepository.create({
       fullname: details.fullname,
@@ -22,5 +26,12 @@ export class ClientContactsService {
     await this.clientContactsRepository.save(newContact);
 
     return newContact;
+  }
+
+  async deleteContact(id: string): Promise<Number> {
+    const affectedRow = (await this.clientContactsRepository.delete(id))
+      .affected;
+
+    return affectedRow;
   }
 }
