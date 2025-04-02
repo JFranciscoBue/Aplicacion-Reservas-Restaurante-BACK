@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm from './config/typeorm';
 import { config as envConfig } from 'dotenv';
 import { JwtModule } from '@nestjs/jwt';
+import { ClientContactsModule } from './clientContacts/clientContacts.module';
 
 envConfig({ path: '.env' });
 
@@ -22,6 +23,7 @@ envConfig({ path: '.env' });
     }),
     ReservationsModule,
     AdminsModule,
+    ClientContactsModule,
     AuthModule,
     JwtModule.register({
       global: true,
