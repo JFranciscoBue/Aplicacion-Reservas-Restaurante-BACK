@@ -35,7 +35,7 @@ export class AdminsService {
     }
   }
 
-  async deleteAdmin(id: string): Promise<Number> {
+  async deleteAdmin(id: string): Promise<number> {
     const affectedRows = (await this.adminRepository.delete(id)).affected;
 
     return affectedRows;

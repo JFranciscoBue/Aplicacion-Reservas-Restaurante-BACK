@@ -26,7 +26,8 @@ export class ReservationExist implements NestInterceptor {
     try {
       await this.reservationsRepository.findOneOrFail({ where: { id } });
       return next.handle();
-    } catch (error) {
+    } catch (e) {
+      console.error(e);
       throw new NotFoundException(`The reservation with id: ${id} not exist`);
     }
   }

@@ -35,7 +35,7 @@ export class ReservationsService {
     });
   }
 
-  async scheduleReservation(data: CreateReservationDto): Promise<Object> {
+  async scheduleReservation(data: CreateReservationDto): Promise<object> {
     const { name, surname, phone } = data;
 
     let client = await this.clientsRepository.findOne({ where: { phone } });
@@ -59,7 +59,7 @@ export class ReservationsService {
     };
   }
 
-  async setStatusCancelled(id: string): Promise<Object> {
+  async setStatusCancelled(id: string): Promise<object> {
     const reservation = await this.reservationsRepository.findOne({
       where: { id },
     });
@@ -74,7 +74,7 @@ export class ReservationsService {
     return { reservation };
   }
 
-  async setStatusFinished(id: string): Promise<Object> {
+  async setStatusFinished(id: string): Promise<object> {
     const reservation = await this.reservationsRepository.findOne({
       where: { id },
     });
@@ -89,7 +89,7 @@ export class ReservationsService {
     return { reservation };
   }
 
-  async deleteReservation(id: string): Promise<Number> {
+  async deleteReservation(id: string): Promise<number> {
     return (await this.reservationsRepository.delete(id)).affected;
   }
 }

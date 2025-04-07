@@ -11,21 +11,28 @@ import {
 import { AdminsService } from './admins.service';
 import { CreateAdminDto } from 'src/dto/admin/Create-Admin.dto';
 import { EntityNotFoundError } from 'typeorm';
+import { Admin } from 'src/entities/Admin.entity';
+import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Admins')
 @Controller('admins')
 export class AdminsController {
   constructor(private readonly adminsService: AdminsService) {}
 
   @Get()
-  async getAllAdmins() {
+  @ApiOperation({ summary: 'Get all Admins' })
+  async getAllAdmins(): Promise<Admin[]> {
     return await this.adminsService.getAdmins();
   }
 
   @Get(':id')
-  async getOneAdmin(@Param('id') id: string) {
+  @ApiOperation({ summary: 'Get ONE Admin By ID' })
+  @ApiParam({ name: 'id', type: String, description: 'Admin ID' })
+  async getOneAdmin(@Param('id') id: string): Promise<Admin> {
     try {
       return await this.adminsService.getOneAdmin(id);
-    } catch (error) {
+    } catch (e) {
+      console.error(e);
       throw new NotFoundException(
         `Admin with id ${id} does not exits. Try again`,
       );
@@ -33,10 +40,12 @@ export class AdminsController {
   }
 
   @Patch('/changeKey/:id')
+  @ApiOperation({ summary: 'Change the key of one Admin' })
+  @ApiParam({ name: 'id', type: String, description: 'Admin ID' })
   async updateKey(
     @Param('id') id: string,
     @Body() data: Partial<CreateAdminDto>,
-  ) {
+  ): Promise<Object> {
     try {
       const adminUpdated = await this.adminsService.updateKey(id, data.key);
 
@@ -54,7 +63,9 @@ export class AdminsController {
   }
 
   @Delete(':id')
-  async deleteAdmin(@Param('id') id: string) {
+  @ApiOperation({ summary: 'Delete one Admin By ID' })
+  @ApiParam({ name: 'id', type: String, description: 'Admin ID' })
+  async deleteAdmin(@Param('id') id: string): Promise<Object> {
     try {
       const adminDeleted = await this.adminsService.deleteAdmin(id);
 
@@ -65,8 +76,9 @@ export class AdminsController {
       return {
         message: 'Admin deleted successfully',
       };
-    } catch (error) {
-      throw new ConflictException('Cannot delet the admins. Try Again');
+    } catch (e) {
+      console.error(e);
+      throw new ConflictException('Cannot delete the admins. Try Again');
     }
   }
 }

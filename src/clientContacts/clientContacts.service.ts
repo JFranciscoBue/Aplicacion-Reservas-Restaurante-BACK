@@ -28,7 +28,7 @@ export class ClientContactsService {
     return newContact;
   }
 
-  async deleteContact(id: string): Promise<Number> {
+  async deleteContact(id: string): Promise<number> {
     const affectedRow = (await this.clientContactsRepository.delete(id))
       .affected;
 
